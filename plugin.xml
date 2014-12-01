@@ -9,7 +9,7 @@
     <keywords>cordova,speech,synthesis,tts</keywords>
 
    <js-module src="www/SpeechSynthesis.js" name="SpeechSynthesis">
-           <merges target="cordova.plugins" />
+           <merges target="cordova.plugins.SpeechSynthesis" />
    </js-module>
    
    <js-module src="www/SpeechSynthesisUtterance.js" name="SpeechSynthesisUtterance">
