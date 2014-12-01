@@ -1,11 +1,13 @@
+#import <Cordova/CDV.h>
+
 #import <AVFoundation/AVFoundation.h>
 
 typedef CDVPluginResult* (^CDVPluginCommandHandler)(CDVInvokedUrlCommand*);
 
-@interface CDVSpeechSynthesizer : CDVPlugin<> {
+@interface CDVSpeechSynthesis : CDVPlugin
 
-}
-
+@property (retain, strong) AVSpeechSynthesizer *speechSynthesizer;
+@property (retain) NSString* delegateCallbackId;
 - (void)speak:(CDVInvokedUrlCommand*)command;
 - (void)cancel:(CDVInvokedUrlCommand*)command;
 - (void)pause:(CDVInvokedUrlCommand*)command;
