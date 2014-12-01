@@ -4,11 +4,13 @@
 
 typedef CDVPluginResult* (^CDVPluginCommandHandler)(CDVInvokedUrlCommand*);
 
+const int CDV_SPEECH_SYNTHESIS_INPUT_PARSE_ERROR = 100;
 int const STOPPED = 0;
 int const INITIALIZING = 1;
 int const STARTED = 2;
 
-@interface CDVSpeechSynthesis : CDVPlugin
+
+@interface CDVSpeechSynthesis : CDVPlugin<AVSpeechSynthesizerDelegate>
 
 
 @property (retain) NSString* delegateCallbackId;
