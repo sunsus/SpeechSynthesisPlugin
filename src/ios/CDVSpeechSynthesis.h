@@ -4,10 +4,19 @@
 
 typedef CDVPluginResult* (^CDVPluginCommandHandler)(CDVInvokedUrlCommand*);
 
+int const STOPPED = 0;
+int const INITIALIZING = 1;
+int const STARTED = 2;
+
 @interface CDVSpeechSynthesis : CDVPlugin
 
-@property (retain, strong) AVSpeechSynthesizer *speechSynthesizer;
+
 @property (retain) NSString* delegateCallbackId;
+@property (retain, strong) AVSpeechSynthesizer *speechSynthesizer;
+@property (nonatomic, assign) CDVCommandStatus status;
+@property (nonatomic, assign) int state;
+
+
 - (void)speak:(CDVInvokedUrlCommand*)command;
 - (void)cancel:(CDVInvokedUrlCommand*)command;
 - (void)pause:(CDVInvokedUrlCommand*)command;
