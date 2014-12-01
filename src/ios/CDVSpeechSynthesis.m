@@ -4,6 +4,9 @@
 
 @implementation CDVSpeechSynthesis
 
+@synthesize status = CDVCommandStatus_OK;
+@synthesize state = STOPED;
+
 - (void) continueSpeakingSyntheticSpeaking{
     [self.speechSynthesizer continueSpeaking];
 }
@@ -39,31 +42,30 @@
 
 
 - (void) startup:(CDVInvokedUrlCommand*) command {
-    
-    
     [self.commandDelegate runInBackground:^{
-          self.speechSynthesizer = [[AVSpeechSynthesizer alloc] init];
+        if(!self.speechSynthesizer) {
+            self.speechSynthesizer = [[AVSpeechSynthesizer alloc] init];
+            self.status = CDVCommandStatus_OK;
+        }
+    
         [self playSyntheticVoice:@"Synthetizer is ready" usingLangage:@"en-GB"];
-        NSString* payload = nil;
-        // Some blocking logic...
-        CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:payload];
-        // The sendPluginResult method is thread-safe.
+        
+        self.delegateCallbackId = command.callbackId;
+        
+        CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:self.status messageAsInt:STARTED];
+    
+        [pluginResult setKeepCallbackAsBool:YES];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     }];
-    
 }
 
 
 - (void) shutdown:(CDVInvokedUrlCommand*) command {
-    
-    
     [self.commandDelegate runInBackground:^{
-        self.speechSynthesizer = [[AVSpeechSynthesizer alloc] init];
-        [self playSyntheticVoice:@"Synthetizer is ready" usingLangage:@"en-GB"];
-        NSString* payload = nil;
-        // Some blocking logic...
-        CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:payload];
-        // The sendPluginResult method is thread-safe.
+        if(self.speechSynthesizer) {
+            self.speechSynthesizer = nil;
+        }
+        CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:self.status messageAsString:@""];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     }];
     
